@@ -2,11 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
-
 import dotenv from "dotenv";
- 
+// import cors from "cors";
+
+const app = express();
+// app.use(cors());
+
 dotenv.config();
- 
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
@@ -16,12 +18,20 @@ mongoose
     console.log(err);
   });
 
-const app = express();
 app.use(express.json());
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal server error";
+  return res.status(statusCode).json({
+    success: false,
+    error: message,
+    statusCode,
+  });
+});
