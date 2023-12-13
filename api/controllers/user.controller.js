@@ -1,5 +1,5 @@
 export const test = (req, res) => {
     res.send({
-        message: "Youyou el mezyen",
+        message: "Hegevdoiop,",
     });
 }
