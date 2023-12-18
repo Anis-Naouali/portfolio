@@ -8,6 +8,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import OAuth from "../components/OAuth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -39,7 +40,6 @@ export default function SignIn() {
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error));
-
     }
   };
 
@@ -49,7 +49,7 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
-          placeholder="Email" 
+          placeholder="Email"
           id="email"
           className="bg-slate-100 p-3 rounded-lg"
           onChange={handleChange}
@@ -67,6 +67,7 @@ export default function SignIn() {
         >
           {loading ? "Loading ..." : "Sign in"}
         </button>
+        <OAuth/>
       </form>
       <div className=" flex mt-5 gap-3">
         <p>Dont have an account ?</p>
@@ -76,7 +77,7 @@ export default function SignIn() {
       </div>
       <p className="mt-5 text-red-700">
         {" "}
-        {error ? error.message || 'Something went wrong!' : ''}
+        {error ? error.message || "Something went wrong!" : ""}
       </p>
     </div>
   );
