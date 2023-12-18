@@ -33,8 +33,9 @@ export default function SignUp() {
       navigate('/signin')
 
     } catch (error) {
-      setLoading(false);
+      setLoading(false); 
       setError(true);
+      
     }
   };
 
