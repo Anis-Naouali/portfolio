@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 // import cors from "cors";
 
 const app = express();
@@ -19,6 +20,7 @@ mongoose
   });
 
 app.use(express.json());
+app.use(cookieParser());
 
 const port = 3000;
 app.listen(port, () => {
