@@ -12,6 +12,9 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../redux/user/userSlice";
 
 export default function Profil() {
@@ -53,7 +56,6 @@ export default function Profil() {
     );
   };
 
-
   const handleChange = (e) => {
     console.log(formData);
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -63,9 +65,9 @@ export default function Profil() {
     try {
       dispatch(updateUserStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -81,12 +83,27 @@ export default function Profil() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form 
-      onSubmit={handleSubmit} 
-      className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
           ref={fileRef}
@@ -141,11 +158,19 @@ export default function Profil() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="cursor-pointer text-red-700"> Delete account </span>
+        <span
+          onClick={handleDeleteAccount}
+          className="cursor-pointer text-red-700"
+        >
+          {" "}
+          Delete account{" "}
+        </span>
         <span className="cursor-pointer text-red-700"> Sign out </span>
       </div>
       <p className="text-red-700 mt-5">{error && "Something went wrong"}</p>
-      <p className="text-green-700 mt-5">{updateSuccess && "User updated successfully"}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess && "User updated successfully"}
+      </p>
     </div>
   );
 }
