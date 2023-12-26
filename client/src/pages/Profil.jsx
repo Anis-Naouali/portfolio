@@ -157,7 +157,7 @@ export default function Profil() {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="password"
           placeholder="Password"
           id="password"
           className="border p-3 rounded-lg"
