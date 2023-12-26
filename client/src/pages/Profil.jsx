@@ -17,6 +17,7 @@ import {
   deleteUserFailure,
   signOut,
 } from "../redux/user/userSlice";
+import { Link } from "react-router-dom";
 
 export default function Profil() {
   const dispatch = useDispatch();
@@ -102,13 +103,12 @@ export default function Profil() {
   };
   const handleSignOut = async () => {
     try {
-      await fetch('/api/auth/signout');
-      dispatch(signOut())
+      await fetch("/api/auth/signout");
+      dispatch(signOut());
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -166,6 +166,9 @@ export default function Profil() {
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
           {loading ? "Updating..." : "Update"}
         </button>
+        <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-90" to="/create-listing" >
+          Create listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span
